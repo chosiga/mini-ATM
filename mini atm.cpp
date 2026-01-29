@@ -1,50 +1,71 @@
 #include <iostream>
+#include <iomanip>
+#include <limits>
 using namespace std;
 
 int main()
 {
-    double balance = 0 ,amount;
-  int choice;
+    double balance = 0.0, amount;
+    int choice = 0;
+    cout << fixed << setprecision(2);
     do
     {
-        cout << "ATM " << endl;
-        cout << "1. Balance: " << endl;
-        cout << "2.Deposit: " << endl;
-        cout << "3.Withdrew: " << endl;
-        cout << "4.exit: " << endl;
-        cout << "choice: " << endl;
-        cin >> choice;
+        cout << "ATM\n";
+        cout << "1. Check Balance\n";
+        cout << "2. Deposit\n";
+        cout << "3. Withdraw\n";
+        cout << "4. Exit\n";
+        cout << "Choice: ";
+        if(!(cin >> choice)){
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid input. Please enter a number." << "\n\n";
+            continue;
+        }
         switch(choice){
             case 1:
-            cout << " Balance is: " << balance <<endl;
-            break;
+                cout << "Balance: " << balance << "\n\n";
+                break;
             case 2:
-            cout << "Deposit Amount: ";
-            cin >> amount;
-            if(amount > 0)
-            {
-                cout << "Deposit successfull" << endl;
-                balance +=amount;
-                cout << " successfull! New balance " << balance << endl;
-            }
-            else
-            cout << "Invaild amount";
-            break;
+                cout << "Deposit Amount: ";
+                if(!(cin >> amount)){
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cout << "Invalid amount input." << "\n\n";
+                    break;
+                }
+                if(amount > 0)
+                {
+                    balance += amount;
+                    cout << "Deposit successful. New balance: " << balance << "\n\n";
+                }
+                else
+                    cout << "Invalid amount. Must be positive." << "\n\n";
+                break;
             case 3:
-            cout << "Withdrew Amount:";
-            cin >> amount;
-            if(amount == balance){
-                balance -= amount;
-                cout << "successfull" << balance;
-            }
-            else
-            cout << " insuficent funds\n";
-            break;
+                cout << "Withdraw Amount: ";
+                if(!(cin >> amount)){
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cout << "Invalid amount input." << "\n\n";
+                    break;
+                }
+                if(amount > 0 && amount <= balance){
+                    balance -= amount;
+                    cout << "Withdrawal successful. New balance: " << balance << "\n\n";
+                }
+                else if(amount > balance){
+                    cout << "Insufficient funds." << "\n\n";
+                }
+                else{
+                    cout << "Invalid amount. Must be positive." << "\n\n";
+                }
+                break;
             case 4:
-            cout << "Exit " << endl;
-            break;
+                cout << "Exiting. Goodbye." << "\n";
+                break;
             default:
-            cout << "Invaild choice";
+                cout << "Invalid choice. Please enter 1-4." << "\n\n";
         }
 
     }while(choice != 4);
